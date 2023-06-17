@@ -101,69 +101,56 @@ class Invntory extends Errorhandl
     }
     // end
 
-    // Add book using company
-    public function store(Request $request)
-    {
-        $input = $request->all();
-    
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'descrption' => 'required'
-        ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Validation Error.');       
-        }
-        
-        $company_id = Auth::user()->id;
-        $input['user_id']= $company_id;
-   
-        $Book = Book::create($input);
-        
-        return response()->json($Book);
-       
-    } 
-    // end
+    //  Book ---------------------------------------------
 
-    // update book 
-     
-    public function update_book(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required',
-            'descrption' => 'required',
-        ]);
-        $Book=Book::where('id',$id)
-        ->update($request->all());
-   
-        return [
-            "msg" => "Book updated successfully"
-        ];
-    }
-    // end
-
-    // show book 
+    // all book 
     public function index()
     {
-        
-        $id = Auth::user()->id;
-        $Book=DB::table('books')->where('id',$id)->get();
-    
-        return response()->json($Book);
+        $books = Book::all();
+         
+        return response()->json($books);    
     }
     // end
 
-    // serche book 
+    // add book 
+    
+    public function store(Request $request)
+    {
+        $book = new Book([
+            'name' => $request->input('name'),
+            'detail' => $request->input('detail')
+        ]);
+        $book->save();
+        return response()->json('Book created!');
+    }
+
+    // end
+
+    // serch book
     public function show($id)
     {
-        $Book = Book::find($id);
-  
-        if (is_null($Book)) {
-            return $this->sendError('Book not found.');
-        }
-   
-        return response()->json($Book);
+        $book = Book::find($id);
+        return response()->json($book);
     }
     // end
+
+    // update book
+    public function update($id, Request $request)
+    {
+        $book = Book::find($id);
+        $book->update($request->all());
+        return response()->json('Book updated!');
+    }
+    // end
+
+    // delete book 
+    public function destroy($id)
+    {
+        $book = Book::find($id);
+        $book->delete();
+        return response()->json('Book deleted!');
+    }
+    // end
+   
 
 }

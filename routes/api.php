@@ -15,11 +15,15 @@ use App\Http\Controllers\Invntory;
 */
 
 Route::post('register', [Invntory::class, 'register']);
+
 Route::post('login', [Invntory::class, 'login']);
-Route::post('login/emloyee', [Invntory::class,'login_employee']);
+
+Route::post('login/employee', [Invntory::class,'login_employee']);
+
+Route::resource('book', Invntory::class);
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::resource('book', Invntory::class);
+  
     Route::post('register/emloyee', [Invntory::class,'register_employee']);
 
     Route::get('delete/emloyee/{id}', [Invntory::class,'delete_employee']);
