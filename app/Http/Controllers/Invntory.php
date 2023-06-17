@@ -151,6 +151,21 @@ class Invntory extends Errorhandl
         return response()->json('Book deleted!');
     }
     // end
+
+
+    // api google book
+    public function google_book()
+    {
+        $client = new \GuzzleHttp\Client();
+        $url= "https://www.googleapis.com/books/v1/volumes?q=search-terms";
+        $response = $client->request("GET", $url);
+        $res_json = json_decode( $response->getBody()->getContents(), true );
+        $data=$res_json['items'];
+        // dd($data);
+        // die;
+        return view ('app',compact('data'));
+    }
+    // end
    
 
 }
