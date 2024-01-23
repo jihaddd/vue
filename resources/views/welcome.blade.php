@@ -35,6 +35,7 @@
             <li class="nav-item nav-logout d-none d-lg-block">
               <a class="nav-link" href="#">
                 test
+                tewtet
                 <i class="mdi mdi-power"></i>
               </a>
             </li>
